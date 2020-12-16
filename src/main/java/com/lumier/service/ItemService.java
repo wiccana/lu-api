@@ -72,8 +72,9 @@ public class ItemService {
                 item = optionalItem.get();
 
                 // save new items automatic history before update
-                if (item.getHistory()) {
+                if (!item.getHistory()) {
                     ItemHistory previousItemHistory = new ItemHistory();
+                    previousItemHistory.setItem_id(item.getItem_id());
                     previousItemHistory.setCost_price(item.getCost_price());
                     previousItemHistory.setUnit_price(item.getUnit_price());
                     previousItemHistory.setDate(new Date());
