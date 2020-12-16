@@ -1,5 +1,6 @@
 package com.lumier.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,8 @@ public class Item {
     private String description;
     private Double cost_price;
     private Double unit_price;
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean history;
 
     public Item() {
     }
@@ -101,12 +104,20 @@ public class Item {
         this.unit_price = unit_price;
     }
 
+    public Boolean getHistory() {
+        return this.history;
+    }
+
+    public void setHistory(Boolean history) {
+        this.history = history;
+    }
+
     @Override
     public String toString() {
         return "{" + " item_id='" + getItem_id() + "'" + ", item_number='" + getItem_number() + "'" + ", name='"
                 + getName() + "'" + ", category='" + getCategory() + "'" + ", supplier_id='" + getSupplier_id() + "'"
-                + ", description='" + getDescription() + "'" + ", cost_price='" + getCost_price() + "'"
-                + ", unit_price='" + getUnit_price() + "'" + "}";
+                + ", history='" + getHistory() + ", description='" + getDescription() + "'" + ", cost_price='"
+                + getCost_price() + "'" + ", unit_price='" + getUnit_price() + "'" + "}";
     }
 
 }

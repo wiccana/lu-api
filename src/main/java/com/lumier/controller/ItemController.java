@@ -1,16 +1,15 @@
 package com.lumier.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-// import com.lumier.domain.Item;
 import com.lumier.domain.ItemDetail;
-// import com.lumier.domain.ItemHistory;
-// import com.lumier.repository.ItemHistoryRepository;
-// import com.lumier.repository.ItemRepository;
+import com.lumier.domain.ItemHistory;
 import com.lumier.service.ItemService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +24,39 @@ public class ItemController {
 
     @GetMapping(path = "/test")
     public ResponseEntity<String> test() {
-        // Document document = MongoReader.getDocument(POPTIONS,"pcategories");
-        System.out.println("testing");
         return new ResponseEntity<>("hola", HttpStatus.OK);
     }
 
     @GetMapping(path = "/details")
-    public ResponseEntity<List<ItemDetail>> getItemsBySupplier(@RequestParam Integer supplier) {
+    public ResponseEntity<List<ItemDetail>> getItemsBySupplier(@RequestParam Integer supplier,
+            @RequestParam String category) {
+
         try {
-            List<ItemDetail> items = itemService.getItemsBySupplier(supplier);
+
+            List<ItemDetail> items = null;
+
+            if (supplier != null) {
+                items = itemService.getItemsBySupplier(supplier);
+            } else if (category != null) {
+                items = itemService.getItemsByCategory(category);
+            }
+
             return new ResponseEntity<>(items, HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping(path = "/details2")
-    public ResponseEntity<List<ItemDetail>> getItemsByCategory(@RequestParam String category) {
+    @PostMapping(path = "/items")
+    public ResponseEntity<List<ItemHistory>> updateItemsHistory(@RequestBody List<ItemHistory> itemHistoryList) {
+
         try {
-            List<ItemDetail> items = itemService.getItemsByCategory(category);
-            return new ResponseEntity<>(items, HttpStatus.OK);
+
+            itemService.updateItemsHistory(itemHistoryList);
+
+            return new ResponseEntity<>(itemHistoryList, HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
