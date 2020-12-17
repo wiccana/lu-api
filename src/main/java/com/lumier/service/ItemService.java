@@ -26,28 +26,15 @@ public class ItemService {
 
     public List<ItemDetail> getItemsBySupplier(Integer supplierId) {
         List<Item> items = itemRepository.findBySupplierId(supplierId);
-        List<ItemDetail> detailsList = new ArrayList<ItemDetail>();
-        ItemDetail detail = new ItemDetail();
-        for (Item item : items) {
 
-            detail.setItem_id(item.getItem_id());
-            detail.setCategory(item.getCategory());
-            detail.setUnitCost(item.getCost_price());
-            detail.setUnitPrice(item.getUnit_price());
-
-            // agrego a la lista
-            detailsList.add(detail);
-        }
-
-        return detailsList;
+        return getDetailsList(items);
     }
 
     public List<ItemDetail> getItemsByCategory(String category) {
-        List<Item> items = itemRepository.findByCategory(category);
+        List<Item> items = itemRepository.findByCategoryContaining(category);
         List<ItemDetail> detailsList = new ArrayList<ItemDetail>();
-        ItemDetail detail = new ItemDetail();
         for (Item item : items) {
-
+            ItemDetail detail = new ItemDetail();
             detail.setItem_id(item.getItem_id());
             detail.setCategory(item.getCategory());
             detail.setUnitCost(item.getCost_price());
@@ -94,6 +81,24 @@ public class ItemService {
             itemHistoryRepository.saveAndFlush(itemHistory);
 
         }
+
+    }
+
+    private List<ItemDetail> getDetailsList(List<Item> items) {
+
+        List<ItemDetail> detailsList = new ArrayList<ItemDetail>();
+        for (Item item : items) {
+            ItemDetail detail = new ItemDetail();
+            detail.setItem_id(item.getItem_id());
+            detail.setCategory(item.getCategory());
+            detail.setUnitCost(item.getCost_price());
+            detail.setUnitPrice(item.getUnit_price());
+
+            // agrego a la lista
+            detailsList.add(detail);
+        }
+
+        return detailsList;
 
     }
 
