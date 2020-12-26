@@ -60,16 +60,16 @@ public class ItemService {
             if (optionalItem.isPresent()) {
                 item = optionalItem.get();
 
-                // save new items automatic history before update
-                if (!item.getHistory()) {
-                    ItemHistory previousItemHistory = new ItemHistory();
-                    previousItemHistory.setItem_id(item.getItem_id());
-                    previousItemHistory.setCost_price(item.getCost_price());
-                    previousItemHistory.setUnit_price(item.getUnit_price());
-                    previousItemHistory.setDate(new Date());
-                    itemHistoryRepository.saveAndFlush(previousItemHistory);
+                // // save new items automatic history before update
+                // if (!item.getHistory()) {
+                // ItemHistory previousItemHistory = new ItemHistory();
+                // previousItemHistory.setItem_id(item.getItem_id());
+                // previousItemHistory.setCost_price(item.getCost_price());
+                // previousItemHistory.setUnit_price(item.getUnit_price());
+                // previousItemHistory.setDate(new Date());
+                // itemHistoryRepository.saveAndFlush(previousItemHistory);
 
-                }
+                // }
 
                 // updates item with new values
                 item.setCost_price(itemHistory.getCost_price());
@@ -97,6 +97,8 @@ public class ItemService {
             detail.setName(item.getName());
             detail.setItem_id(item.getItem_id());
             detail.setCategory(item.getCategory());
+            // get las history date
+            detail.setDate(getLastHistoryDate(item));
             detail.setUnitCost(item.getCost_price());
             detail.setUnitPrice(item.getUnit_price());
 
@@ -106,6 +108,14 @@ public class ItemService {
 
         return detailsList;
 
+    }
+
+    private Date getLastHistoryDate(Item item) {
+        ItemHistory itemHistory = itemHistoryRepository.getLastItemHistory(item.getItem_id());
+        if (itemHistory == null) {
+            return null;
+        }
+        return itemHistory.getDate();
     }
 
 }

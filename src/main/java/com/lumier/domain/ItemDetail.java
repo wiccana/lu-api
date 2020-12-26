@@ -1,6 +1,6 @@
 package com.lumier.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class ItemDetail {
 
