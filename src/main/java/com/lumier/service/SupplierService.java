@@ -1,15 +1,10 @@
 package com.lumier.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import com.lumier.domain.Item;
-import com.lumier.domain.ItemDetail;
-import com.lumier.domain.ItemHistory;
 import com.lumier.domain.Supplier;
-import com.lumier.repository.ItemHistoryRepository;
-import com.lumier.repository.ItemRepository;
 import com.lumier.repository.SupplierRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +18,16 @@ public class SupplierService {
 
     public List<Supplier> getAllSuppliers() {
         return supplierRepository.findAll();
+    }
+
+    public HashMap<Integer, String> getSuppliersMap() {
+        List<Supplier> suppliersList = supplierRepository.findAll();
+        HashMap<Integer, String> suppliersMap = new HashMap<Integer, String>();
+        for (Supplier supplier : suppliersList) {
+            suppliersMap.put(supplier.getPerson_id(), supplier.getCompany_name());
+        }
+        return suppliersMap;
+
     }
 
     public Supplier getSupplier(Integer id) {

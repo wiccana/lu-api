@@ -18,7 +18,7 @@ public class Item {
     private String item_number;
     private String name;
     private String category;
-    private String supplier_id;
+    private Integer supplier_id;
     private String description;
     private Double cost_price;
     private Double unit_price;
@@ -28,7 +28,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(Integer item_id, String item_number, String name, String category, String supplier_id,
+    public Item(Integer item_id, String item_number, String name, String category, Integer supplier_id,
             String description, Double cost_price, Double unit_price) {
         this.item_id = item_id;
         this.item_number = item_number;
@@ -72,11 +72,11 @@ public class Item {
         this.category = category;
     }
 
-    public String getSupplier_id() {
+    public Integer getSupplier_id() {
         return this.supplier_id;
     }
 
-    public void setSupplier_id(String supplier_id) {
+    public void setSupplier_id(Integer supplier_id) {
         this.supplier_id = supplier_id;
     }
 

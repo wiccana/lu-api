@@ -1,6 +1,8 @@
 package com.lumier.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +15,6 @@ import com.lumier.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service
 public class ItemService {
 
@@ -22,11 +22,13 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     @Autowired
+    private SupplierService supplierService;
+
+    @Autowired
     private ItemHistoryRepository itemHistoryRepository;
 
     public List<ItemDetail> getItemsBySupplier(Integer supplierId) {
         List<Item> items = itemRepository.findBySupplierId(supplierId);
-
         return getDetailsList(items);
     }
 
@@ -86,9 +88,13 @@ public class ItemService {
 
     private List<ItemDetail> getDetailsList(List<Item> items) {
 
+        HashMap<Integer, String> suppliers = supplierService.getSuppliersMap();
+
         List<ItemDetail> detailsList = new ArrayList<ItemDetail>();
         for (Item item : items) {
             ItemDetail detail = new ItemDetail();
+            detail.setSupplierName(suppliers.get(item.getSupplier_id()));
+            detail.setName(item.getName());
             detail.setItem_id(item.getItem_id());
             detail.setCategory(item.getCategory());
             detail.setUnitCost(item.getCost_price());
