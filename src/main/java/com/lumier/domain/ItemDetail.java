@@ -13,8 +13,8 @@ public class ItemDetail {
     private Double unitCost;
     private Double unitPrice;
     private Date date;
-    private Double newUnitCost;
-    private Double newUnitPrice;
+    private Double cost_price;
+    private Double unit_price;
 
     public Integer getItem_id() {
         return this.item_id;
@@ -88,20 +88,20 @@ public class ItemDetail {
         this.date = date;
     }
 
-    public Double getNewUnitCost() {
-        return this.newUnitCost;
+    public Double getCost_Price() {
+        return this.cost_price;
     }
 
-    public void setNewUnitCost(Double newUnitCost) {
-        this.newUnitCost = newUnitCost;
+    public void setCost_price(Double cost_price) {
+        this.cost_price = cost_price;
     }
 
-    public Double getNewUnitPrice() {
-        return this.newUnitPrice;
+    public Double getUnit_price() {
+        return this.unit_price;
     }
 
-    public void setNewUnitPrice(Double newUnitPrice) {
-        this.newUnitPrice = newUnitPrice;
+    public void setUnit_price(Double unit_price) {
+        this.unit_price = unit_price;
     }
 
 }
