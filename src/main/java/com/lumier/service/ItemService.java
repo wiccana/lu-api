@@ -1,5 +1,6 @@
 package com.lumier.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -130,6 +131,22 @@ public class ItemService {
             return null;
         }
         return itemHistory.getDate();
+    }
+
+    public List<ItemDetail> excludeToday(List<ItemDetail> items) {
+        List<ItemDetail> todayExcludedDetailItems = new ArrayList<ItemDetail>();
+        String itemDateFormatted = "";
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyyMMdd");
+        String todayFormatted = simpleFormat.format(new Date()).toString();
+        for (ItemDetail itemDetail : items) {
+            itemDateFormatted = simpleFormat.format(itemDetail.getDate()).toString();
+            if (!todayFormatted.equals(itemDateFormatted)) {
+                todayExcludedDetailItems.add(itemDetail);
+            }
+
+        }
+        return todayExcludedDetailItems;
+
     }
 
 }

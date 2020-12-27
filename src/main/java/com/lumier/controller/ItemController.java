@@ -28,17 +28,19 @@ public class ItemController {
     }
 
     @GetMapping(path = "/details")
-    public ResponseEntity<List<ItemDetail>> getItemsBySupplier(@RequestParam Integer supplier,
-            @RequestParam String category) {
+    public ResponseEntity<List<ItemDetail>> getItems(@RequestParam Integer supplier, @RequestParam String category) {
+        Boolean excludeToday = true;
 
         try {
-
             List<ItemDetail> items = null;
 
             if (supplier != null) {
                 items = itemService.getItemsBySupplier(supplier);
             } else if (category != null) {
                 items = itemService.getItemsByCategory(category);
+            }
+            if (excludeToday) {
+                items = itemService.excludeToday(items);
             }
 
             return new ResponseEntity<>(items, HttpStatus.OK);
