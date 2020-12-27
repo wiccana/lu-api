@@ -22,4 +22,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Query(value = "SELECT item_id, item_number, name, category, supplier_id, description, cost_price, unit_price, history FROM Ospos_items OT where OT.category like %:category%", nativeQuery = true)
     List<Item> findByCategoryContaining(@Param("category") String category);
 
+    @Query(value = "SELECT item_id, item_number, name, category, supplier_id, description, cost_price, unit_price, history FROM Ospos_items OT where OT.history = false", nativeQuery = true)
+    List<Item> findItemsWithoutHistory();
+
 }

@@ -49,6 +49,31 @@ public class ItemService {
         return detailsList;
     }
 
+    public List<Item> createHistoryForNewItems() {
+        List<Item> itemsWithoutHistory = itemRepository.findItemsWithoutHistory();
+        if (itemsWithoutHistory == null) {
+            return null;
+        }
+
+        for (Item item : itemsWithoutHistory) {
+
+            ItemHistory newItemHistory = new ItemHistory();
+            newItemHistory.setItem_id(item.getItem_id());
+            newItemHistory.setCost_price(item.getCost_price());
+            newItemHistory.setUnit_price(item.getUnit_price());
+            newItemHistory.setDate(new Date());
+            // saves fresh created history
+            itemHistoryRepository.saveAndFlush(newItemHistory);
+
+            // update Item History to TRUE
+            item.setHistory(true);
+            itemRepository.save(item);
+        }
+
+        return itemsWithoutHistory;
+
+    }
+
     public void updateItemsHistory(List<ItemHistory> itemHistoryList) {
         Optional<Item> optionalItem;
         Item item;
@@ -59,17 +84,6 @@ public class ItemService {
             optionalItem = itemRepository.findById(itemHistory.getItem_id());
             if (optionalItem.isPresent()) {
                 item = optionalItem.get();
-
-                // // save new items automatic history before update
-                // if (!item.getHistory()) {
-                // ItemHistory previousItemHistory = new ItemHistory();
-                // previousItemHistory.setItem_id(item.getItem_id());
-                // previousItemHistory.setCost_price(item.getCost_price());
-                // previousItemHistory.setUnit_price(item.getUnit_price());
-                // previousItemHistory.setDate(new Date());
-                // itemHistoryRepository.saveAndFlush(previousItemHistory);
-
-                // }
 
                 // updates item with new values
                 item.setCost_price(itemHistory.getCost_price());
