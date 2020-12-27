@@ -28,11 +28,12 @@ public class ItemService {
     @Autowired
     private ItemHistoryRepository itemHistoryRepository;
 
-    public List<ItemDetail> getItemsBySupplier(Integer supplierId) {
+    public List<ItemDetail> getItems(Integer supplierId, Boolean excludeToday) {
         List<Item> items = itemRepository.findBySupplierId(supplierId);
-        return getDetailsList(items);
+        return getDetailsList(items, excludeToday);
     }
 
+    // NO USAR
     public List<ItemDetail> getItemsByCategory(String category) {
         List<Item> items = itemRepository.findByCategoryContaining(category);
         List<ItemDetail> detailsList = new ArrayList<ItemDetail>();
@@ -101,19 +102,33 @@ public class ItemService {
 
     }
 
-    private List<ItemDetail> getDetailsList(List<Item> items) {
-
+    private List<ItemDetail> getDetailsList(List<Item> items, Boolean excludeToday) {
+        // get suppliers names
         HashMap<Integer, String> suppliers = supplierService.getSuppliersMap();
+        // formatted date
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyyMMdd");
+        String todayFormatted = simpleFormat.format(new Date()).toString();
+        String itemDateFormatted = "";
+        Date itemDate = null;
 
         List<ItemDetail> detailsList = new ArrayList<ItemDetail>();
         for (Item item : items) {
+            itemDate = getLastHistoryDate(item);
+
+            if (excludeToday) {
+                itemDateFormatted = simpleFormat.format(itemDate).toString();
+                if (todayFormatted.equals(itemDateFormatted)) {
+                    continue;
+                }
+            }
+
             ItemDetail detail = new ItemDetail();
             detail.setSupplierName(suppliers.get(item.getSupplier_id()));
             detail.setName(item.getName());
             detail.setItem_id(item.getItem_id());
             detail.setCategory(item.getCategory());
             // get las history date
-            detail.setDate(getLastHistoryDate(item));
+            detail.setDate(itemDate);
             detail.setUnitCost(item.getCost_price());
             detail.setUnitPrice(item.getUnit_price());
 
@@ -131,22 +146,6 @@ public class ItemService {
             return null;
         }
         return itemHistory.getDate();
-    }
-
-    public List<ItemDetail> excludeToday(List<ItemDetail> items) {
-        List<ItemDetail> todayExcludedDetailItems = new ArrayList<ItemDetail>();
-        String itemDateFormatted = "";
-        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyyMMdd");
-        String todayFormatted = simpleFormat.format(new Date()).toString();
-        for (ItemDetail itemDetail : items) {
-            itemDateFormatted = simpleFormat.format(itemDetail.getDate()).toString();
-            if (!todayFormatted.equals(itemDateFormatted)) {
-                todayExcludedDetailItems.add(itemDetail);
-            }
-
-        }
-        return todayExcludedDetailItems;
-
     }
 
 }
