@@ -36,9 +36,8 @@ public class ItemController {
         try {
             List<ItemDetail> items = null;
 
-            if (supplier != null) {
-                items = itemService.getItems(supplier, extoday);
-            }
+            items = itemService.getItems(supplier, extoday);
+
             // else if (category != null) {
             // items = itemService.getItemsByCategory(category);
             // }

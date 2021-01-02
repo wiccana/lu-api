@@ -29,7 +29,12 @@ public class ItemService {
     private ItemHistoryRepository itemHistoryRepository;
 
     public List<ItemDetail> getItems(Integer supplierId, Boolean excludeToday) {
-        List<Item> items = itemRepository.findBySupplierId(supplierId);
+        List<Item> items = null;
+        if (supplierId == null) {
+            items = itemRepository.findAll();
+        } else {
+            items = itemRepository.findBySupplierId(supplierId);
+        }
         return getDetailsList(items, excludeToday);
     }
 
