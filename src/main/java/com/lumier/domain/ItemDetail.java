@@ -3,6 +3,16 @@ package com.lumier.domain;
 public class ItemDetail {
 
     private Integer item_id;
+    private String itemNumber;
+
+    public String getItemNumber() {
+        return this.itemNumber;
+    }
+
+    public void setItemNumber(String itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
     private String supplierName;
     private String supplierID;
     private String code;

@@ -132,6 +132,7 @@ public class ItemService {
             detail.setSupplierName(suppliers.get(item.getSupplier_id()));
             detail.setName(item.getName());
             detail.setItem_id(item.getItem_id());
+            detail.setItemNumber(item.getItem_number());
             detail.setCategory(item.getCategory());
             // get las history date
             detail.setUpdate(dateFormat.format(itemDate).toString());
