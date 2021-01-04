@@ -1,7 +1,5 @@
 package com.lumier.domain;
 
-import java.util.Date;
-
 public class ItemDetail {
 
     private Integer item_id;
@@ -12,9 +10,28 @@ public class ItemDetail {
     private String category;
     private Double unitCost;
     private Double unitPrice;
-    private Date date;
+    private String update;
     private Double cost_price;
     private Double unit_price;
+    private Double profit;
+
+    public Double getProfit() {
+        return this.profit;
+    }
+
+    public void setProfit(Double profit) {
+        this.profit = profit;
+    }
+
+    public Double getRise() {
+        return this.rise;
+    }
+
+    public void setRise(Double rise) {
+        this.rise = rise;
+    }
+
+    private Double rise;
 
     public Integer getItem_id() {
         return this.item_id;
@@ -80,12 +97,12 @@ public class ItemDetail {
         this.unitPrice = unitPrice;
     }
 
-    public Date getDate() {
-        return this.date;
+    public String getUpdate() {
+        return this.update;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setUpdate(String update) {
+        this.update = update;
     }
 
     public Double getCost_Price() {

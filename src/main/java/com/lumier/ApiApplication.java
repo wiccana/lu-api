@@ -1,5 +1,6 @@
 package com.lumier;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,13 +14,16 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
+	@Value("${front.url}")
+	private String frontUrl;
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:8081").allowedMethods("GET", "POST", "PUT",
-						"DELETE", "HEAD");
+				registry.addMapping("/**").allowedOrigins(frontUrl).allowedMethods("GET", "POST", "PUT", "DELETE",
+						"HEAD");
 			}
 		};
 	}

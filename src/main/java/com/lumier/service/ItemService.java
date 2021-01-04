@@ -112,6 +112,7 @@ public class ItemService {
         HashMap<Integer, String> suppliers = supplierService.getSuppliersMap();
         // formatted date
         SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MMM");
         String todayFormatted = simpleFormat.format(new Date()).toString();
         String itemDateFormatted = "";
         Date itemDate = null;
@@ -133,7 +134,7 @@ public class ItemService {
             detail.setItem_id(item.getItem_id());
             detail.setCategory(item.getCategory());
             // get las history date
-            detail.setDate(itemDate);
+            detail.setUpdate(dateFormat.format(itemDate).toString());
             detail.setUnitCost(item.getCost_price());
             detail.setUnitPrice(item.getUnit_price());
 
