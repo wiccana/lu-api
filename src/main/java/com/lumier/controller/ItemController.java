@@ -38,10 +38,6 @@ public class ItemController {
 
             items = itemService.getItems(supplier, extoday);
 
-            // else if (category != null) {
-            // items = itemService.getItemsByCategory(category);
-            // }
-
             return new ResponseEntity<>(items, HttpStatus.OK);
 
         } catch (Exception e) {
