@@ -14,7 +14,7 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
-	@Value("${front.url}")
+	@Value("${allowed.origins}")
 	private String frontUrl;
 
 	@Bean
