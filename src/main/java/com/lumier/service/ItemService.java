@@ -56,30 +56,30 @@ public class ItemService {
         return detailsList;
     }
 
-    public List<Item> createHistoryForNewItems() {
-        List<Item> itemsWithoutHistory = itemRepository.findItemsWithoutHistory();
-        if (itemsWithoutHistory == null) {
-            return null;
-        }
+    // public List<Item> createHistoryForNewItems() {
+    // List<Item> itemsWithoutHistory = itemRepository.findItemsWithoutHistory();
+    // if (itemsWithoutHistory == null) {
+    // return null;
+    // }
 
-        for (Item item : itemsWithoutHistory) {
+    // for (Item item : itemsWithoutHistory) {
 
-            ItemHistory newItemHistory = new ItemHistory();
-            newItemHistory.setItem_id(item.getItem_id());
-            newItemHistory.setCost_price(item.getCost_price());
-            newItemHistory.setUnit_price(item.getUnit_price());
-            newItemHistory.setDate(new Date());
-            // saves fresh created history
-            itemHistoryRepository.saveAndFlush(newItemHistory);
+    // ItemHistory newItemHistory = new ItemHistory();
+    // newItemHistory.setItem_id(item.getItem_id());
+    // newItemHistory.setCost_price(item.getCost_price());
+    // newItemHistory.setUnit_price(item.getUnit_price());
+    // newItemHistory.setDate(new Date());
+    // // saves fresh created history
+    // itemHistoryRepository.saveAndFlush(newItemHistory);
 
-            // update Item History to TRUE
-            item.setHistory(true);
-            itemRepository.save(item);
-        }
+    // // update Item History to TRUE
+    // item.setHistory(true);
+    // itemRepository.save(item);
+    // }
 
-        return itemsWithoutHistory;
+    // return itemsWithoutHistory;
 
-    }
+    // }
 
     public void updateItemsHistory(List<ItemHistory> itemHistoryList) {
         Optional<Item> optionalItem;
@@ -121,7 +121,7 @@ public class ItemService {
         for (Item item : items) {
             itemDate = getLastHistoryDate(item);
 
-            if (excludeToday) {
+            if (itemDate != null && excludeToday) {
                 itemDateFormatted = simpleFormat.format(itemDate).toString();
                 if (todayFormatted.equals(itemDateFormatted)) {
                     continue;
@@ -135,7 +135,7 @@ public class ItemService {
             detail.setItemNumber(item.getItem_number());
             detail.setCategory(item.getCategory());
             // get las history date
-            detail.setUpdate(dateFormat.format(itemDate).toString());
+            detail.setUpdate(itemDate == null ? null : dateFormat.format(itemDate).toString());
             detail.setUnitCost(item.getCost_price());
             detail.setUnitPrice(item.getUnit_price());
 

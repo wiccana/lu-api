@@ -59,18 +59,18 @@ public class ItemController {
         }
     }
 
-    @PostMapping(path = "/items/createHistory")
-    public ResponseEntity<List<Item>> createHistoryForNewItems(@RequestBody List<ItemHistory> itemHistoryList) {
+    // @PostMapping(path = "/items/createHistory")
+    // public ResponseEntity<List<Item>> createHistoryForNewItems() {
 
-        try {
+    // try {
 
-            List<Item> updatedItems = itemService.createHistoryForNewItems();
+    // List<Item> updatedItems = itemService.createHistoryForNewItems();
 
-            return new ResponseEntity<>(updatedItems, HttpStatus.OK);
+    // return new ResponseEntity<>(updatedItems, HttpStatus.OK);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // } catch (Exception e) {
+    // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
+    // }
 
 }
