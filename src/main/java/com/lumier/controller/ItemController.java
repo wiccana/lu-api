@@ -2,7 +2,6 @@ package com.lumier.controller;
 
 import java.util.List;
 
-import com.lumier.domain.Item;
 import com.lumier.domain.ItemDetail;
 import com.lumier.domain.ItemHistory;
 import com.lumier.service.ItemService;
@@ -28,8 +27,8 @@ public class ItemController {
     }
 
     @GetMapping(path = "/details")
-    public ResponseEntity<List<ItemDetail>> getItems(@RequestParam Integer supplier, @RequestParam String category,
-            @RequestParam Boolean extoday) {
+    public ResponseEntity<List<ItemDetail>> getItems(@RequestParam(required = false) Integer supplier,
+            @RequestParam String category, @RequestParam Boolean extoday) {
         if (extoday == null)
             extoday = false;
 
