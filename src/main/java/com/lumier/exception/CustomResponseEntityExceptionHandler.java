@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final String notValidArgumentMessage = "Argument/s not valid"; // TODO: ver internacionalizacion
+    private static final String notValidArgumentMessage = "Argument/s not valid";
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest wr) {

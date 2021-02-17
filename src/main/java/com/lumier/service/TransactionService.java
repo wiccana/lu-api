@@ -1,5 +1,6 @@
 package com.lumier.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import com.lumier.domain.Expense;
@@ -27,37 +28,37 @@ public class TransactionService {
     @Autowired
     private ReceivingRepository receivingRepository;
 
-    public List<Transaction> getExpenses(String paymentType) {
+    public List<Transaction> getExpenses(String paymentType, Date fromDate, Date toDate) {
         List<Expense> expenses = null;
 
         if (paymentType.equals(Transaction.ALL)) {
             expenses = expenseRepository.findAll();
         } else {
-            expenses = expenseRepository.search(paymentType);
+            expenses = expenseRepository.search(paymentType, fromDate, toDate);
         }
 
         return expensesToTransactions(expenses);
     }
 
-    public List<Transaction> getSalePayments(String paymentType) {
+    public List<Transaction> getSalePayments(String paymentType, Date fromDate, Date toDate) {
         List<SalePayment> salePayments = null;
 
         if (paymentType.equals(Transaction.ALL)) {
             salePayments = salePaymentRepository.findAll();
         } else {
-            salePayments = salePaymentRepository.search(paymentType);
+            salePayments = salePaymentRepository.search(paymentType, fromDate, toDate);
         }
 
         return salesPaymentToTransactions(salePayments);
     }
 
-    public List<Transaction> getReceivings(String paymentType) {
+    public List<Transaction> getReceivings(String paymentType, Date fromDate, Date toDate) {
         List<Receiving> receivings = null;
 
         if (paymentType.equals(Transaction.ALL)) {
             receivings = receivingRepository.findAll();
         } else {
-            receivings = receivingRepository.search(paymentType);
+            receivings = receivingRepository.search(paymentType, fromDate, toDate);
         }
 
         return receivingsToTransactions(receivings);

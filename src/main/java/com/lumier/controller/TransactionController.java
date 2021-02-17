@@ -20,8 +20,16 @@ public class TransactionController {
     TransactionService transactionService;
 
     @GetMapping(path = "/transaction")
-    public ResponseEntity<List<Transaction>> findAllTransactions(@RequestParam(required = false) Date date,
-            @RequestParam(required = false) String paymentType) {
+    public ResponseEntity<List<Transaction>> findAllTransactions(@RequestParam(required = false) Date fromDate,
+            @RequestParam(required = false) Date toDate, @RequestParam(required = false) String paymentType) {
+
+        if (paymentType == null) {
+            paymentType = "all";
+        }
+        if (fromDate == null || toDate == null) {
+            fromDate = new Date(System.currentTimeMillis());
+            toDate = fromDate;
+        }
 
         switch (paymentType) {
             case "cash":
@@ -38,9 +46,9 @@ public class TransactionController {
 
         }
 
-        List<Transaction> transactions = transactionService.getExpenses(paymentType);
-        transactions.addAll(transactionService.getSalePayments(paymentType));
-        transactions.addAll(transactionService.getReceivings(paymentType));
+        List<Transaction> transactions = transactionService.getExpenses(paymentType, fromDate, toDate);
+        transactions.addAll(transactionService.getSalePayments(paymentType, fromDate, toDate));
+        transactions.addAll(transactionService.getReceivings(paymentType, fromDate, toDate));
 
         return new ResponseEntity<>(transactions, HttpStatus.OK);
 
