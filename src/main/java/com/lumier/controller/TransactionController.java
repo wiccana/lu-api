@@ -54,4 +54,13 @@ public class TransactionController {
 
     }
 
+    @GetMapping(path = "/receivings/update")
+    public ResponseEntity<String> findAllTransactions() {
+
+        transactionService.updateReceivingsAmount();
+
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+
+    }
+
 }

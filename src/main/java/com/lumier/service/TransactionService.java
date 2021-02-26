@@ -3,16 +3,22 @@ package com.lumier.service;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.lumier.domain.Expense;
 import com.lumier.domain.Receiving;
+import com.lumier.domain.ReceivingItem;
+import com.lumier.domain.ReceivingItemId;
 import com.lumier.domain.SalePayment;
 import com.lumier.domain.Transaction;
 import com.lumier.repository.ExpenseRepository;
+import com.lumier.repository.ReceivingItemRepository;
 import com.lumier.repository.ReceivingRepository;
 import com.lumier.repository.SalePaymentRepository;
 
 import static com.lumier.domain.Transaction.TransactionType;
 
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +33,9 @@ public class TransactionService {
 
     @Autowired
     private ReceivingRepository receivingRepository;
+
+    @Autowired
+    private ReceivingItemRepository receivingItemRepository;
 
     public List<Transaction> getExpenses(String paymentType, Date fromDate, Date toDate) {
         List<Expense> expenses = null;
@@ -62,6 +71,27 @@ public class TransactionService {
         }
 
         return receivingsToTransactions(receivings);
+    }
+
+    public void updateReceivingsAmount() {
+        List<Receiving> receivings = receivingRepository.findWithNullAmount();
+        List<ReceivingItem> receivingItems;
+        Double amount;
+        for (Receiving receiving : receivings) {
+            /*
+             * Criteria criteria = session.createCriteria(YourClass.class); YourObject
+             * yourObject = criteria.add(Restrictions.eq("yourField", yourFieldValue))
+             * .uniqueResult();
+             */
+            receivingItems = receivingItemRepository.findByReceivingId(receiving.getReceiving_id());
+            amount = 0d;
+            for (ReceivingItem receivingItem : receivingItems) {
+                amount += receivingItem.getItemCostPrice() * receivingItem.getQuantityPurchased();
+            }
+            receiving.setAmount(Double.valueOf(amount));
+            receivingRepository.save(receiving);
+        }
+
     }
 
     // convert expenses to transactions

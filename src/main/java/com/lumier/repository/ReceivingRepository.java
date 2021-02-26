@@ -17,4 +17,7 @@ public interface ReceivingRepository extends JpaRepository<Receiving, Integer> {
     List<Receiving> search(@Param("paymentType") String paymentType, @Param("toDate") Date toDate,
             @Param("fromDate") Date fromDate);
 
+    @Query(value = "SELECT receiving_id, receiving_time, payment_type, comment, supplier_id, amount FROM Ospos_receivings where amount is NULL", nativeQuery = true)
+    List<Receiving> findWithNullAmount();
+
 }
