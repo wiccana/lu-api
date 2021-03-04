@@ -78,15 +78,10 @@ public class TransactionService {
         List<ReceivingItem> receivingItems;
         Double amount;
         for (Receiving receiving : receivings) {
-            /*
-             * Criteria criteria = session.createCriteria(YourClass.class); YourObject
-             * yourObject = criteria.add(Restrictions.eq("yourField", yourFieldValue))
-             * .uniqueResult();
-             */
             receivingItems = receivingItemRepository.findByReceivingId(receiving.getReceiving_id());
             amount = 0d;
             for (ReceivingItem receivingItem : receivingItems) {
-                amount += receivingItem.getItemCostPrice() * receivingItem.getQuantityPurchased();
+                amount += receivingItem.getItemUnitPrice() * receivingItem.getQuantityPurchased();
             }
             receiving.setAmount(Double.valueOf(amount));
             receivingRepository.save(receiving);
