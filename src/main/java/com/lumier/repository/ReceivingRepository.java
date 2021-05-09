@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 public interface ReceivingRepository extends JpaRepository<Receiving, Integer> {
 
     @Query(value = "SELECT receiving_id, receiving_time, payment_type, comment, supplier_id, amount FROM Ospos_receivings where payment_type = :paymentType and CAST(receiving_time AS DATE) between :fromDate AND :toDate", nativeQuery = true)
-    List<Receiving> search(@Param("paymentType") String paymentType, @Param("toDate") Date toDate,
-            @Param("fromDate") Date fromDate);
+    List<Receiving> search(@Param("paymentType") String paymentType, @Param("fromDate") Date fromDate,
+            @Param("toDate") Date toDate);
 
     @Query(value = "SELECT receiving_id, receiving_time, payment_type, comment, supplier_id, amount FROM Ospos_receivings where amount is NULL", nativeQuery = true)
     List<Receiving> findWithNullAmount();

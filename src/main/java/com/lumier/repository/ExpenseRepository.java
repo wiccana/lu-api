@@ -13,8 +13,8 @@ import com.lumier.domain.Expense;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
-    @Query(value = "SELECT expense_id, date, payment_type, description, amount, expense_category_id FROM Ospos_expenses where payment_type = :paymentType and CAST(date AS DATE) between :fromDate AND :toDate", nativeQuery = true)
-    List<Expense> search(@Param("paymentType") String paymentType, @Param("toDate") Date toDate,
-            @Param("fromDate") Date fromDate);
+    @Query(value = "SELECT expense_id, date, payment_type, description, amount, expense_category_id FROM Ospos_expenses where deleted = 0 and payment_type = :paymentType and CAST(date AS DATE) between :fromDate AND :toDate", nativeQuery = true)
+    List<Expense> search(@Param("paymentType") String paymentType, @Param("fromDate") Date fromDate,
+            @Param("toDate") Date toDate);
 
 }

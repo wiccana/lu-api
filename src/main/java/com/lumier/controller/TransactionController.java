@@ -1,6 +1,7 @@
 package com.lumier.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lumier.domain.Transaction;
@@ -21,7 +22,8 @@ public class TransactionController {
 
     @GetMapping(path = "/transaction")
     public ResponseEntity<List<Transaction>> findAllTransactions(@RequestParam(required = false) Date fromDate,
-            @RequestParam(required = false) Date toDate, @RequestParam(required = false) String paymentType) {
+            @RequestParam(required = false) Date toDate, @RequestParam(required = false) String paymentType,
+            @RequestParam(required = false) String transactionType) {
 
         if (paymentType == null) {
             paymentType = "all";
@@ -45,15 +47,33 @@ public class TransactionController {
                 paymentType = Transaction.ALL;
 
         }
+        List<Transaction> transactions = new ArrayList<Transaction>();
 
-        List<Transaction> transactions = transactionService.getExpenses(paymentType, fromDate, toDate);
-        transactions.addAll(transactionService.getSalePayments(paymentType, fromDate, toDate));
-        transactions.addAll(transactionService.getReceivings(paymentType, fromDate, toDate));
+        if (transactionType == null) {
+            transactions.addAll(transactionService.getExpenses(paymentType, fromDate, toDate));
+            transactions.addAll(transactionService.getSalePayments(paymentType, fromDate, toDate));
+            transactions.addAll(transactionService.getReceivings(paymentType, fromDate, toDate));
+        } else {
+            switch (transactionType) {
+                case "sale":
+                    transactions.addAll(transactionService.getSalePayments(paymentType, fromDate, toDate));
+                    break;
+                case "expense":
+                    transactions.addAll(transactionService.getExpenses(paymentType, fromDate, toDate));
+                    break;
+                case "receiving":
+                    transactions.addAll(transactionService.getReceivings(paymentType, fromDate, toDate));
+                    break;
+
+            }
+        }
 
         return new ResponseEntity<>(transactions, HttpStatus.OK);
 
     }
 
+    // Actualiza el campo amount de ospos_receivings solo para los que tiene dicho
+    // campo en nulo
     @GetMapping(path = "/receivings/update")
     public ResponseEntity<String> findAllTransactions() {
 

@@ -34,6 +34,17 @@ public class ReceivingItem {
     @Column(name = "receiving_quantity")
     private Double receivingQuantity;
 
+    @Column(name = "discount")
+    private Double discount;
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
     public String getDescription() {
         return description;
     }

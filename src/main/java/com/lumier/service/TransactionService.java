@@ -73,15 +73,21 @@ public class TransactionService {
         return receivingsToTransactions(receivings);
     }
 
+    // calcula el amount en ospos_receivings
     public void updateReceivingsAmount() {
         List<Receiving> receivings = receivingRepository.findWithNullAmount();
         List<ReceivingItem> receivingItems;
+        Double itemAmount;
         Double amount;
         for (Receiving receiving : receivings) {
             receivingItems = receivingItemRepository.findByReceivingId(receiving.getReceiving_id());
             amount = 0d;
             for (ReceivingItem receivingItem : receivingItems) {
-                amount += receivingItem.getItemUnitPrice() * receivingItem.getQuantityPurchased();
+                itemAmount = receivingItem.getItemUnitPrice() * receivingItem.getQuantityPurchased();
+                if (receivingItem.getDiscount() != null && receivingItem.getDiscount() > 0) {
+                    itemAmount = itemAmount - ((itemAmount * receivingItem.getDiscount()) / 100);
+                }
+                amount += itemAmount;
             }
             receiving.setAmount(Double.valueOf(amount));
             receivingRepository.save(receiving);
