@@ -84,8 +84,13 @@ public class TransactionService {
             amount = 0d;
             for (ReceivingItem receivingItem : receivingItems) {
                 itemAmount = receivingItem.getItemUnitPrice() * receivingItem.getQuantityPurchased();
-                if (receivingItem.getDiscount() != null && receivingItem.getDiscount() > 0) {
+                if (receivingItem.getDiscount() != null && receivingItem.getDiscount() > 0
+                        && receivingItem.getDiscountType() == 0) {
                     itemAmount = itemAmount - ((itemAmount * receivingItem.getDiscount()) / 100);
+                }
+                if (receivingItem.getDiscount() != null && receivingItem.getDiscount() > 0
+                        && receivingItem.getDiscountType() == 1) {
+                    itemAmount = itemAmount - receivingItem.getDiscount();
                 }
                 amount += itemAmount;
             }

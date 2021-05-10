@@ -37,6 +37,17 @@ public class ReceivingItem {
     @Column(name = "discount")
     private Double discount;
 
+    @Column(name = "discount_type")
+    private Integer discountType;
+
+    public Integer getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(Integer discountType) {
+        this.discountType = discountType;
+    }
+
     public Double getDiscount() {
         return discount;
     }
