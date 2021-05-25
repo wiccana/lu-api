@@ -17,4 +17,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     List<Expense> search(@Param("paymentType") String paymentType, @Param("fromDate") Date fromDate,
             @Param("toDate") Date toDate);
 
+    @Query(value = "SELECT expense_id, date, payment_type, description, amount, expense_category_id FROM Ospos_expenses where deleted = 0 and CAST(date AS DATE) between :fromDate AND :toDate", nativeQuery = true)
+    List<Expense> search(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
 }

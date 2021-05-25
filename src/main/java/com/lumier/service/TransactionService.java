@@ -41,7 +41,7 @@ public class TransactionService {
         List<Expense> expenses = null;
 
         if (paymentType.equals(Transaction.ALL)) {
-            expenses = expenseRepository.findAll();
+            expenses = expenseRepository.search(fromDate, toDate);
         } else {
             expenses = expenseRepository.search(paymentType, fromDate, toDate);
         }
@@ -53,7 +53,7 @@ public class TransactionService {
         List<SalePayment> salePayments = null;
 
         if (paymentType.equals(Transaction.ALL)) {
-            salePayments = salePaymentRepository.findAll();
+            salePayments = salePaymentRepository.search(fromDate, toDate);
         } else {
             salePayments = salePaymentRepository.search(paymentType, fromDate, toDate);
         }
@@ -65,7 +65,7 @@ public class TransactionService {
         List<Receiving> receivings = null;
 
         if (paymentType.equals(Transaction.ALL)) {
-            receivings = receivingRepository.findAll();
+            receivings = receivingRepository.search(fromDate, toDate);
         } else {
             receivings = receivingRepository.search(paymentType, fromDate, toDate);
         }

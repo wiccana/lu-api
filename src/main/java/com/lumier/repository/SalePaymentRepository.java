@@ -17,4 +17,7 @@ public interface SalePaymentRepository extends JpaRepository<SalePayment, Intege
     List<SalePayment> search(@Param("paymentType") String paymentType, @Param("fromDate") Date fromDate,
             @Param("toDate") Date toDate);
 
+    @Query(value = "SELECT payment_id, payment_time, payment_type, sale_id, payment_amount, cash_refund FROM ospos_sales_payments where CAST(payment_time AS DATE) between :fromDate AND :toDate and sale_id in (select sale_id from ospos_sales where sale_status = 0)", nativeQuery = true)
+    List<SalePayment> search(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
 }
